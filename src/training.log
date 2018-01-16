@@ -1,0 +1,177 @@
+=================================
+STARTING CLASSIFICATION TRAINING...
+Input dimensions: 6374
+Input samples: 992
+Groups: 1
+=================================
+[INFO] ========================================================
+[INFO] Training model KNN (1)... 
+[INFO] Accuracy: 93.4673
+[INFO] Fmeasures: 
+0.966234 -nan(ind) -nan(ind) 
+[INFO] Confusion Matrix:
+186 7 3 
+2 0 0 
+1 0 0 
+[INFO] Matthew's Correlation Coefficient: -0.0221315
+[INFO] Best model so far!
+[INFO] ========================================================
+[INFO] Training model KNN (2)... 
+[INFO] Accuracy: 98.4925
+[INFO] Fmeasures: 
+0.992405 -nan(ind) -nan(ind) 
+[INFO] Confusion Matrix:
+196 0 0 
+2 0 0 
+1 0 0 
+[INFO] Matthew's Correlation Coefficient: 0
+[INFO] Best model so far!
+[INFO] ========================================================
+[INFO] Training model KNN (5)... 
+[INFO] Accuracy: 98.4925
+[INFO] Fmeasures: 
+0.992405 -nan(ind) -nan(ind) 
+[INFO] Confusion Matrix:
+196 0 0 
+2 0 0 
+1 0 0 
+[INFO] Matthew's Correlation Coefficient: 0
+[INFO] ========================================================
+[INFO] Training model KNN (10)... 
+[INFO] Accuracy: 98.4925
+[INFO] Fmeasures: 
+0.992405 -nan(ind) -nan(ind) 
+[INFO] Confusion Matrix:
+196 0 0 
+2 0 0 
+1 0 0 
+[INFO] Matthew's Correlation Coefficient: 0
+[INFO] ========================================================
+[INFO] Training model KNN (15)... 
+[INFO] Accuracy: 98.4925
+[INFO] Fmeasures: 
+0.992405 -nan(ind) -nan(ind) 
+[INFO] Confusion Matrix:
+196 0 0 
+2 0 0 
+1 0 0 
+[INFO] Matthew's Correlation Coefficient: 0
+[INFO] ========================================================
+[INFO] Training model KNN (20)... 
+[INFO] Accuracy: 98.4925
+[INFO] Fmeasures: 
+0.992405 -nan(ind) -nan(ind) 
+[INFO] Confusion Matrix:
+196 0 0 
+2 0 0 
+1 0 0 
+[INFO] Matthew's Correlation Coefficient: 0
+[INFO] ========================================================
+[INFO] Training model KNN (25)... 
+[INFO] Accuracy: 98.4925
+[INFO] Fmeasures: 
+0.992405 -nan(ind) -nan(ind) 
+[INFO] Confusion Matrix:
+196 0 0 
+2 0 0 
+1 0 0 
+[INFO] Matthew's Correlation Coefficient: 0
+[INFO] ========================================================
+[INFO] Training model KNN (30)... 
+[INFO] Accuracy: 98.4925
+[INFO] Fmeasures: 
+0.992405 -nan(ind) -nan(ind) 
+[INFO] Confusion Matrix:
+196 0 0 
+2 0 0 
+1 0 0 
+[INFO] Matthew's Correlation Coefficient: 0
+[INFO] ========================================================
+[INFO] Training model KNN (40)... 
+[INFO] Accuracy: 98.4925
+[INFO] Fmeasures: 
+0.992405 -nan(ind) -nan(ind) 
+[INFO] Confusion Matrix:
+196 0 0 
+2 0 0 
+1 0 0 
+[INFO] Matthew's Correlation Coefficient: 0
+[INFO] ========================================================
+[INFO] Training model MINDIST (1)... 
+[INFO] Accuracy: 32.6633
+[INFO] Fmeasures: 
+0.494297 -nan(ind) -nan(ind) 
+[INFO] Confusion Matrix:
+65 56 75 
+1 0 1 
+1 0 0 
+[INFO] Matthew's Correlation Coefficient: -0.0692419
+[INFO] ========================================================
+[INFO] Training model MINDIST (2)... 
+[INFO] Accuracy: 37.1859
+[INFO] Fmeasures: 
+0.535316 0.0540541 -nan(ind) 
+[INFO] Confusion Matrix:
+72 70 54 
+0 2 0 
+1 0 0 
+[INFO] Matthew's Correlation Coefficient: 0.039588
+[INFO] Best model so far!
+[INFO] ========================================================
+[INFO] Training model MINDIST (5)... 
+[INFO] Accuracy: 72.3618
+[INFO] Fmeasures: 
+0.83871 0.0555556 -nan(ind) 
+[INFO] Confusion Matrix:
+143 33 20 
+1 1 0 
+1 0 0 
+[INFO] Matthew's Correlation Coefficient: 0.0330249
+[INFO] ========================================================
+[INFO] Training model MINDIST (10)... 
+[INFO] Accuracy: 81.407
+[INFO] Fmeasures: 
+0.897507 -nan(ind) -nan(ind) 
+[INFO] Confusion Matrix:
+162 21 13 
+2 0 0 
+1 0 0 
+[INFO] Matthew's Correlation Coefficient: -0.0421351
+[INFO] ========================================================
+[INFO] Training model MINDIST (15)... 
+[INFO] Accuracy: 0
+[INFO] Fmeasures: 
+
+[INFO] Confusion Matrix:
+[INFO] Matthew's Correlation Coefficient: 0
+[INFO] ========================================================
+[INFO] Training model MINDIST (20)... 
+[INFO] Accuracy: 0
+[INFO] Fmeasures: 
+
+[INFO] Confusion Matrix:
+[INFO] Matthew's Correlation Coefficient: 0
+[INFO] ========================================================
+[INFO] Training model MINDIST (25)... 
+[INFO] Accuracy: 0
+[INFO] Fmeasures: 
+
+[INFO] Confusion Matrix:
+[INFO] Matthew's Correlation Coefficient: 0
+[INFO] ========================================================
+[INFO] Training model MINDIST (30)... 
+[INFO] Accuracy: 0
+[INFO] Fmeasures: 
+
+[INFO] Confusion Matrix:
+[INFO] Matthew's Correlation Coefficient: 0
+[INFO] ========================================================
+[INFO] Training model MINDIST (40)... 
+[INFO] Accuracy: 0
+[INFO] Fmeasures: 
+
+[INFO] Confusion Matrix:
+[INFO] Matthew's Correlation Coefficient: 0
+[INFO] The best model found is:
+MINDIST (2)
+[INFO] with an accuracy of: 37.1859 and a mcc of: 0.039588
