@@ -2,7 +2,7 @@ import json, glob
 import pose
 import math
 import unittest
-#import pdb
+import pdb
 
 
 def labelWindows(computed_windows, computed_functionals, label_groups):
@@ -49,15 +49,23 @@ def computeWindows(keypoints, wvalues, framerate, window_size, window_step):
     #frame size in ms
     frame_size = 1/framerate*1000
     #window size in frames
-    frames_window_size = round(window_size/frame_size)
+    #frames_window_size = round(window_size/frame_size)
+    frames_window_size = window_size/frame_size
     #displacement in frames
-    displacement = math.ceil(frames_window_size/2)-1
+    displacement = math.ceil(frames_window_size/2)
+    if frames_window_size % 2 != 0:
+        displacement = displacement-1
     #step in frames
-    step = math.floor(window_step/frame_size)
+    step = math.ceil(window_step/frame_size)
+
+
 
     result = []
     #for each window
-    for i in range(0, len(keypoints)-1, frames_window_size):
+    #for i in range(0, len(keypoints)-1, frames_window_size):
+    float_i = 0.0
+    while float_i < len(keypoints):
+        i = round(float_i)
         lowerBound = max(i-displacement, 0)
         #+1, range goes to higherBound-1
         higherBound = min(i+displacement+1, len(keypoints))
@@ -67,6 +75,10 @@ def computeWindows(keypoints, wvalues, framerate, window_size, window_step):
             values[name] = f(keypoints[lowerBound:higherBound])
         #append all computed values of this window to the result
         result.append(values)
+
+        float_i += frames_window_size
+
+    #print(len(keypoints),len(result), frame_size, frames_window_size, displacement, step)
 
     return result
 
@@ -103,6 +115,7 @@ def getKeypoints(folder):
                 personIndex = pose.getBiggestPersonIndex(keypoint)
 
             p = pose.Pose()
+            posekp = pose.PoseKeypoint(i, p)
             #if there's no person, use last keypoint data
             if personIndex in range(0, len(keypoint["people"])):
                 p.fromData(keypoint["people"][personIndex])

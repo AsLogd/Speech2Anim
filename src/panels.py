@@ -3,7 +3,7 @@ import bpy
 class Speech2AnimTrainingVideosItems(bpy.types.UIList):
     def draw_item(self, context, layout, data, item, icon, active_data, active_propname, index):
         row = layout.row()
-        row.prop(item, "name", text="", emboss=False, translate=False, icon='BORDER_RECT')
+        row.prop(item, "name", text="", emboss=False, translate=False, icon='RENDER_ANIMATION')
 
     def invoke(self, context, event):
         pass  
@@ -48,13 +48,16 @@ class Speech2AnimTrainingPanel(bpy.types.Panel):
                 scn.speech2anim_data, "selected_training_video_index", rows=2)
 
             col = row.column(align=True)
-            col.operator("s2a.training_videos_list_actions", icon='ZOOMIN', text="").action = 'CLEAR_POSE'
-            col.operator("s2a.training_videos_list_actions", icon='ZOOMIN', text="").action = 'CLEAR_AUDIO'
-            col.operator("s2a.training_videos_list_actions", icon='ZOOMIN', text="").action = 'SEE_INFO'
+            col.operator("s2a.training_videos_list_actions", icon='POSE_DATA', text="").action = 'CLEAR_POSE'
+            col.operator("s2a.training_videos_list_actions", icon='MUTE_IPO_ON', text="").action = 'CLEAR_AUDIO'
+            col.operator("s2a.training_videos_list_actions", icon='RESTRICT_VIEW_OFF', text="").action = 'SEE_INFO'
+            col.operator("s2a.save_label_modifications", icon='SAVE_COPY', text="")
         #### video list
         row = layout.row()
         row.scale_y = 1.5
         row.operator("s2a.train_model")
+        row = layout.row()
+        row.operator("s2a.train_model_mods")
         row = layout.row()
         row.operator("s2a.open_training_log")
         row = layout.row()

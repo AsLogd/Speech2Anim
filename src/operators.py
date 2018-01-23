@@ -80,7 +80,26 @@ class TrainModel(bpy.types.Operator):
                 d.training_videos_list.remove(i)
 
         return {'FINISHED'}
-    
+
+class TrainModelMods(bpy.types.Operator):
+    """Trains the model using the training videos and modifications"""
+    bl_idname = "s2a.train_model_mods"
+    bl_label = "Train modifications"
+    @classmethod
+    def poll(cls, context):
+        data = context.scene.speech2anim_data
+        return (data.training_model_path != '' and data.training_videos_path != '')
+
+    def execute(self, context):
+        os.chdir(bpy.utils.user_resource("SCRIPTS", "addons")+config.ADDON_PATH+'/src')
+        wops.rmdir(config.DATA_OUTPUT[3:], wops.clear(bpy.utils.user_resource("SCRIPTS", "addons")+config.ADDON_PATH))
+        wops.mkdir(config.DATA_OUTPUT[3:], wops.clear(bpy.utils.user_resource("SCRIPTS", "addons")+config.ADDON_PATH))
+        d = context.scene.speech2anim_data
+        DataManager.GenerateFinalTrainingFile(d.training_model_path)
+        DataManager.DoTrain()
+
+        return {'FINISHED'}
+
 class AnimateWithModel(bpy.types.Operator):
     """Animates the selected armature using the specified model and input file"""
     bl_idname = "s2a.animate"
@@ -101,6 +120,7 @@ class AnimateWithModel(bpy.types.Operator):
         result_path = DataManager.Predict(d.animate_model_path, d.input_file)
         data = CSVFile()
         data.from_file(result_path)
+        data.tidy()
         data = data.to_dict()
         data = BlenderManager.fillFrameIndexes(data)
         armature = context.object
@@ -257,6 +277,59 @@ class ResetStateFiles(bpy.types.Operator):
 
         return {'FINISHED'}
 
+class SaveLabelModifications(bpy.types.Operator):
+    """
+    Generates the final training file with the modifications
+    to the labels of the current video
+    """
+    bl_idname = "s2a.save_label_modifications"
+    bl_label = ""
+    bl_description = "Saves label modifications"
+
+    def execute(self, context):
+        if not context.object.tempUserData:
+            self.report({'ERROR'}, "There's no loaded data")
+            return {'CANCELLED'}
+        scn = context.scene
+        idx = scn.speech2anim_data.selected_training_video_index
+        addon_path = wops.clear(bpy.utils.user_resource("SCRIPTS", "addons")+config.ADDON_PATH)
+        try:
+            item = scn.speech2anim_data.training_videos_list[idx]
+        except IndexError:
+            return {'CANCELLED'}
+
+        training_file = CSVFile()
+        training_file.from_file(addon_path+'/output/tempdata/'+item.name+'/training_data.csv')
+        training_file = training_file.to_dict()
+        training_info = CSVFile()
+        training_info.from_file(addon_path+'/output/tempdata/'+item.name+'/training_info.csv')
+        training_info_dict = training_info.to_dict()
+        for label_group in config.LABEL_GROUPS:
+            group_name = label_group['group_name']
+            #print(group_name)
+            new_group_labels = [0] * len(training_file[group_name])
+            for i, label_name in enumerate(label_group['label_names']):
+                #print(label_name, i)
+                for j, frame in enumerate(training_info_dict[config.FRAME_INDEX_COLNAME]):
+                    context.scene.frame_set(int(frame))
+                    value = int(context.object.tempUserData[label_name])
+                    #print(frame, value, j)
+                    training_info_dict[label_name][j] = value
+                    if value:
+                        #print("add to training","row:", j,"label:", i)
+                        new_group_labels[j] = i+1
+
+
+            training_file[group_name] = new_group_labels
+
+        training_info.from_dict(training_info_dict)
+        training_info.saveAs(addon_path+'/output/tempdata/'+item.name+'/training_info')
+        new_training_file = CSVFile()
+        new_training_file.from_dict(training_file)    
+        new_training_file.saveAs(addon_path+'/output/tempdata/'+item.name+'/training_data')
+
+        return {'FINISHED'}
+
 class ClearAllGeneratedFiles(bpy.types.Operator):
     """
     Clears all generated files
@@ -302,9 +375,9 @@ class TrainingVideosListActions(bpy.types.Operator):
 
     action = bpy.props.EnumProperty(
         items=(
-            ('CLEAR_POSE', "Clear Pose", ""),
-            ('CLEAR_AUDIO', "Clear Audio", ""),
-            ('SEE_INFO', "See training info", "")
+            ('CLEAR_POSE', "Clear Pose", "Clear pose data (use if pose window properties changed)"),
+            ('CLEAR_AUDIO', "Clear Audio", "Clear audio data (use if opensmile window properties or config file changed)"),
+            ('SEE_INFO', "See training info", "Load the pose detection video and the features information")
         )
     )
 

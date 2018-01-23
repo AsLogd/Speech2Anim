@@ -142,7 +142,7 @@ def ExtractAudioFeatures(filename):
         '-I', audioFile,
         '-wstep', "{0:.3f}".format(config.AUDIO_WINDOW_STEP_MS/1000),
         '-wsize', "{0:.3f}".format(config.AUDIO_WINDOW_SIZE_MS/1000),
-        #TODO: LLD FOR DEV PURPOSES
+        #TODO: LLD is smaller and faster, expose to config file
         #'-lldcsvoutput', outputPath+'/features.csv'])
         '-csvoutput', outputPath+'/features.csv'])
 
@@ -193,11 +193,11 @@ def GenerateIndividualTrainingData(training_videos_folder=config.TRAINING_VIDEOS
         label_names = utils.get_label_names(config.LABEL_GROUPS)
         labels_outputfile = CSVFile(['frameIndex'] + window_values_names + label_names)
         #step in frame count (frames/window)
-        frames_per_pose_window = round((config.POSE_WINDOW_STEP_MS/1000)*framerate)
+        frames_per_pose_window = (config.POSE_WINDOW_STEP_MS/1000)*framerate
         #for each window
         for i, w in enumerate(computedWindows):
             #frame index
-            row = [i*frames_per_pose_window]
+            row = [round(i*frames_per_pose_window)]
 
             #add all computed values (from pose data)
             for name in window_values_names:
@@ -401,12 +401,6 @@ def Predict(input_model=config.MODEL_OUTPUT,audioFile=""):
     ExtractAudioFeatures(audioFile)
     return DoPredict(input_model, audioFile)
 
-#BONUS:
-#-add training videos feedback
-#-try with diferent datasets:
-#--try with single person videos
-#--fabricated weird videos
-#--try with talk videos
 def main():
     parser = argparse.ArgumentParser(description='Trains or predict models')
     parser.add_argument('-c', help='Clears cached output', action='store_true')

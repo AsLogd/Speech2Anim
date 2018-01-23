@@ -21,17 +21,16 @@ Created by Gerard del Castillo
 import bpy
 
 import sys
-sys.path.append(bpy.utils.user_resource("SCRIPTS", "addons")+"/speech2animtrainingdev/src")
+sys.path.append(bpy.utils.user_resource("SCRIPTS", "addons")+"/speech2anim/src")
 
 import operators, panels, properties
 bl_info = {
-    "name": "Speech2Anim Training dev",
+    "name": "Speech2Anim",
     "description": "Train models to use with Speech2Anim",
     "author": "Gerard del Castillo",
     "version": (0, 0, 1),
     "blender": (2, 78, 0),
     "location": "Animation",
-    "warning": "This addon is still in development.",
     "wiki_url": "",
     "category": "Object" }
 

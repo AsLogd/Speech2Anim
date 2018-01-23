@@ -52,6 +52,27 @@ class CSVFile:
 			for row in csv_file:
 				self.addRow(row)
 
+	def tidy(self):
+		newHeader = []
+		for h in self.header:
+			newHeader.append(h.strip())
+		self.header = newHeader
+
+		newContent = collections.OrderedDict()
+		for key, row in self.content.items():
+			newkey = key.strip()
+			newContent[newkey] = []
+			for value in row:
+				newContent[newkey].append(str(value).strip())
+
+		self.content = newContent
+
+
+
+	def from_dict(self, d):
+		self.content = d
+		self.nrows = len(d[list(d)[0]])
+
 	def to_dict(self):
 		return self.content			
 

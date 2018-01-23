@@ -120,7 +120,7 @@ def remove_link(data_obj, filename):
         if filename in obj.filepath:
             data_obj.remove(obj, do_unlink=True)
 
-def insertAction(action, start_frame, action_frame_start=0, action_frame_end=0, scale=1, smooth_frames=20):
+def insertAction(action, start_frame, end_frame, action_frame_start=0, action_frame_end=0, scale=1, smooth_frames=20):
     """
     Pushes down an action to the selected armature
     """
@@ -141,15 +141,16 @@ def insertAction(action, start_frame, action_frame_start=0, action_frame_end=0, 
     bpy.context.object.animation_data.nla_tracks[-1].select=True
     bpy.ops.nla.actionclip_add(action=action)
     added_strip = bpy.context.object.animation_data.nla_tracks[-1].strips[0]
-    added_strip.scale = scale
     added_strip.frame_start = start_frame
-    #added_strip.frame_end = end_frame
+    added_strip.frame_end = end_frame
     added_strip.blend_in=smooth_frames
     added_strip.blend_out=smooth_frames
     added_strip.action_frame_start = action_frame_start
-    if action_frame_end:
-        added_strip.action_frame_end = action_frame_end
+    added_strip.action_frame_end = end_frame - start_frame
+    #if action_frame_end:
+    #    added_strip.action_frame_end = action_frame_end
     
+    added_strip.scale = scale
     area.type=old_area
 
 def clearActions():
